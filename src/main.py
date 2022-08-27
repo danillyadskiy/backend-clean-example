@@ -1,8 +1,13 @@
+import os
+import sys
+
 import uvicorn
 from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
 
-from api.v1 import questions
+sys.path.append(os.getcwd())
+
+from src.api.v1 import questions  # noqa
 
 app = FastAPI(
     title="mock-api",
