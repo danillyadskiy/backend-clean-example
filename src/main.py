@@ -2,10 +2,15 @@ import os
 import sys
 
 import uvicorn
+from elasticsearch import AsyncElasticsearch
 from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
 
+from core.settings import Settings
+from storage.instances.elastic import storage
+
 sys.path.append(os.getcwd())
+settings = Settings()
 
 from src.api.v1 import questions  # noqa
 
@@ -19,7 +24,7 @@ app = FastAPI(
 
 @app.on_event("startup")
 async def startup() -> None:
-    ...
+    storage.elastic_storage = AsyncElasticsearch(hosts=[settings.elastic])
 
 
 @app.on_event("shutdown")

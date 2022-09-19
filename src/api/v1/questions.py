@@ -7,9 +7,10 @@ from uuid import uuid4
 from fastapi import APIRouter, Depends, HTTPException
 
 from api.v1.schema.question import PostQuestionSchema
+from services.generator.elastic import EDSLGenerator, get_edsl_generator
 from services.loader.service import QuestionsLoaderService, get_questions_loader_service
-from services.search.service import Question
-from src.api.v1.fake.factory import get_fake_question, get_fake_questions
+from services.search.service import Question, QuestionsSearchService, get_questions_search_service
+from src.api.v1.fake.factory import get_fake_question
 from src.api.v1.fake.schema import FakeQuestionSchema
 
 router = APIRouter()
@@ -30,14 +31,20 @@ async def get_question() -> FakeQuestionSchema:  # pylint: disable=too-many-argu
     return get_fake_question()
 
 
-@router.get(
-    "/questions",
-    response_model=List[FakeQuestionSchema],
-    summary="Question",
-    description="Get list of questions",
+@router.post(
+    "/search/questions",
+    status_code=HTTPStatus.CREATED,
+    summary="Questions search",
+    description="Search question by text",
 )
-async def get_questions_list() -> List[FakeQuestionSchema]:
-    return get_fake_questions()
+async def get_questions_list(
+    question_text: str,
+    edsl_generator: EDSLGenerator = Depends(get_edsl_generator),
+    search_service: QuestionsSearchService = Depends(get_questions_search_service),
+) -> List[Question]:
+    edsl = edsl_generator.generate_question_text_edsl(question_text)
+    questions = await search_service.search_question(edsl)
+    return questions
 
 
 # TODO: добавить возвращаемый тип

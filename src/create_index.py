@@ -9,3 +9,4 @@ if __name__ == "__main__":
     settings = Settings()
     es = ElasticSearchLoader(Elasticsearch(hosts=[settings.elastic]))
     es.create_mapping(index_name=QUESTIONS_INDEX_NAME, body=QUESTIONS_INDEX_SETTINGS)
+    # es.delete_index(index_name=QUESTIONS_INDEX_NAME)
