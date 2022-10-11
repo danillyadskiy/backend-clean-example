@@ -52,10 +52,11 @@ async def get_questions_list(
 async def post_question(  # type:ignore
     posted_question: PostQuestionSchema, loader_service: QuestionsLoaderService = Depends(get_questions_loader_service)
 ):
-    is_uploaded = loader_service.upload_question(posted_question_schema_to_question_model(posted_question))
+    question_detail = posted_question_schema_to_question_model(posted_question)
+    is_uploaded = loader_service.upload_question(question_detail)
 
     if is_uploaded:
-        return {}
+        return question_detail
     else:
         # TODO: нужно проработать варианты ошибок
         raise HTTPException(status_code=HTTPStatus.BAD_REQUEST)

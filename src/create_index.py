@@ -2,7 +2,7 @@
 from elasticsearch import Elasticsearch
 
 from core.settings import Settings
-from src.services.loader.elastic import ElasticSearchLoader
+from services.loader.elastic import ElasticSearchLoader
 from storage.instances.elastic.settings import QUESTIONS_INDEX_NAME, QUESTIONS_INDEX_SETTINGS
 
 if __name__ == "__main__":
