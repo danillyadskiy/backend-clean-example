@@ -15,7 +15,7 @@ settings = Settings()
 from src.api.v1 import questions  # noqa
 
 app = FastAPI(
-    title="mock-api",
+    title="search-api",
     docs_url="/api/openapi",
     openapi_url="/api/openapi.json",
     default_response_class=ORJSONResponse,
