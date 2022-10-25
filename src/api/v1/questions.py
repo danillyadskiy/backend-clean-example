@@ -18,7 +18,7 @@ router = APIRouter()
 
 # TODO: вынести отсюда эту функцию
 def posted_question_schema_to_question_model(posted_question: PostQuestionSchema) -> Question:
-    return Question(text=posted_question.text, id=uuid4(), timestamp=datetime.now().timestamp())
+    return Question(text=posted_question.text, id=posted_question.id, timestamp=datetime.now().timestamp())
 
 
 @router.get(
@@ -48,7 +48,11 @@ async def get_questions_list(
 
 
 # TODO: добавить возвращаемый тип
-@router.post("/questions", status_code=HTTPStatus.CREATED)
+@router.post("/questions",
+             status_code=HTTPStatus.CREATED,
+             summary="Question saving",
+             description="Save question with id and text",
+             )
 async def post_question(  # type:ignore
     posted_question: PostQuestionSchema, loader_service: QuestionsLoaderService = Depends(get_questions_loader_service)
 ):

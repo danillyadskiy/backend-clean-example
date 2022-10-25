@@ -11,3 +11,4 @@ class QuestionSchema(BaseModel):
 class PostQuestionSchema(BaseModel):
     # TODO: схему можно дополнять, добавляя поля из модели elastic
     text: str
+    id: UUID
