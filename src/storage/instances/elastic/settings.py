@@ -1,5 +1,5 @@
-QUESTIONS_INDEX_NAME = "questions"
-QUESTIONS_INDEX_SETTINGS = {
+KNOWLEDGE_INDEX_NAME = "knowledge"
+KNOWLEDGE_INDEX_SETTINGS = {
     "settings": {
         "refresh_interval": "1s",
         "analysis": {
@@ -28,10 +28,25 @@ QUESTIONS_INDEX_SETTINGS = {
     "mappings": {
         "dynamic": "strict",
         "properties": {
+            # ID сообщения
             "id": {"type": "keyword"},
+            # ID  автора сообщения
+            "author_id": {"type": "long"},
+            # Имя автора сообщения
+            "author_first_name": {"type": "text", "analyzer": "ru_en"},
+            # Фамилия автора сообщения
+            "author_last_name": {"type": "text", "analyzer": "ru_en"},
+            # Логин автора сообщения
+            "author_login": {"type": "text", "analyzer": "ru_en"},
+            # ID канала куда опубликовали сообщение
+            "published_channel_id": {"type": "long"},
+            # ID опубликованного в канале сообщения
+            "published_message_id": {"type": "long"},
+            # ID текст сообщения
             "text": {"type": "text", "analyzer": "ru_en"},
-            "author": {"type": "text", "analyzer": "ru_en"},
+            # Теги сообщения TODO: пока что не используется никак
             "tags": {"type": "text", "analyzer": "ru_en"},
+            # Время публикации сообщения
             "timestamp": {"type": "date", "format": "date_optional_time||epoch_millis"},
         },
     },
