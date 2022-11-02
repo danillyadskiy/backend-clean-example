@@ -1,0 +1,27 @@
+stages:
+  - test
+  - build
+  - release
+
+include:
+  - template: Security/SAST.gitlab-ci.yml
+  - project: 'rdv-company/knowledge-app/knowledge_app_infra'
+    file: 'template.gitlab-ci.yml'
+
+variables:
+  VERSION: 1.0.${CI_PIPELINE_ID}
+  SAST_EXCLUDED_ANALYZERS: "eslint"
+
+build-docker:
+  extends: .build-docker-kaniko
+  variables:
+    DCR_IMAGE_TAG: $VERSION
+    IMAGE_NAME: knowledge_app_telegram_bot
+    DOCKERFILE_PATH: ${CI_PROJECT_DIR}/Dockerfile
+    CONTEXT_PATH: ${CI_PROJECT_DIR}
+
+release-docker:
+  extends: .upload-docker-latest
+  variables:
+    DCR_IMAGE_TAG: $VERSION
+    IMAGE_NAME: knowledge_app_telegram_bot
