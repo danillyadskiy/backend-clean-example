@@ -12,7 +12,7 @@ from storage.instances.elastic import storage
 sys.path.append(os.getcwd())
 settings = Settings()
 
-from src.api.v1 import questions  # noqa
+from src.api.v1 import publications  # noqa
 
 app = FastAPI(
     title="search-api",
@@ -32,7 +32,7 @@ async def shutdown() -> None:
     ...
 
 
-app.include_router(questions.router, prefix="/api/v1", tags=["questions"])
+app.include_router(publications.router, prefix="/api/v1", tags=["publications"])
 
 if __name__ == "__main__":
     uvicorn.run(
