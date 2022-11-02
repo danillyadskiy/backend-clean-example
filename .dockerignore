@@ -1,0 +1,14 @@
+Dockerfile
+.git
+.gitignore
+*.md
+.cache
+*.sh
+*.yml
+*.service
+*.cfg
+*.toml
+Makefile
+.env
+.env.example
+*.txt
