@@ -6,7 +6,7 @@ from pydantic.main import BaseModel
 
 from core.settings import Settings
 from models.knowledge_publication import KnowledgePublication
-from src.storage.search import AsyncSearchStorage
+from storage.search import AsyncSearchStorage
 from storage.instances.elastic.settings import KNOWLEDGE_INDEX_NAME
 from storage.instances.elastic.storage import get_elastic
 
