@@ -16,7 +16,7 @@ build-docker:
   extends: .build-docker-kaniko
   variables:
     DCR_IMAGE_TAG: $VERSION
-    IMAGE_NAME: knowledge_app_telegram_bot
+    IMAGE_NAME: knowledge_app_telegram_search
     DOCKERFILE_PATH: ${CI_PROJECT_DIR}/Dockerfile
     CONTEXT_PATH: ${CI_PROJECT_DIR}
 
@@ -24,4 +24,4 @@ release-docker:
   extends: .upload-docker-latest
   variables:
     DCR_IMAGE_TAG: $VERSION
-    IMAGE_NAME: knowledge_app_telegram_bot
+    IMAGE_NAME: knowledge_app_telegram_search
