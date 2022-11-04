@@ -1,5 +1,5 @@
-KNOWLEDGE_INDEX_NAME = "knowledge"
-KNOWLEDGE_INDEX_SETTINGS = {
+TEST_INDEX_NAME = "test"
+TEST_INDEX_SETTINGS = {
     "settings": {
         "refresh_interval": "1s",
         "analysis": {
@@ -15,7 +15,7 @@ KNOWLEDGE_INDEX_SETTINGS = {
                 },
             },
             "analyzer": {
-                "ru_en": {
+                "my_analyzer": {
                     "tokenizer": "standard",
                     "filter": [
                         "lowercase",
@@ -33,26 +33,7 @@ KNOWLEDGE_INDEX_SETTINGS = {
     "mappings": {
         "dynamic": "strict",
         "properties": {
-            # ID сообщения
-            "id": {"type": "keyword"},
-            # ID  автора сообщения
-            "author_id": {"type": "long"},
-            # Имя автора сообщения
-            "author_first_name": {"type": "keyword"},
-            # Фамилия автора сообщения
-            "author_last_name": {"type": "keyword"},
-            # Логин автора сообщения
-            "author_login": {"type": "keyword"},
-            # ID канала куда опубликовали сообщение
-            "published_channel_id": {"type": "long"},
-            # ID опубликованного в канале сообщения
-            "published_message_id": {"type": "long"},
-            # ID текст сообщения
-            "text": {"type": "text", "analyzer": "ru_en"},
-            # Теги сообщения TODO: пока что не используется никак
-            "tags": {"type": "text", "analyzer": "ru_en"},
-            # Время публикации сообщения
-            "timestamp": {"type": "date", "format": "date_optional_time||epoch_millis"},
+            "text": {"type": "text"},
         },
     },
 }
