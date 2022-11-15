@@ -5,7 +5,7 @@ stages:
   - deploy
 
 include:
-  - template: Security/SAST.gitlab-ci.yml
+#  - template: Security/SAST.gitlab-ci.yml
   - project: 'rdv-company/knowledge-app/knowledge_app_infra'
     file: 'template.gitlab-ci.yml'
 
@@ -16,6 +16,9 @@ variables:
 build-docker:
   before_script:
     - ls -al
+    - echo ${CONTEXT_PATH}
+    - echo ${DOCKERFILE_PATH}
+    - echo ${CI_REGISTRY_IMAGE}/$IMAGE_NAME:$DCR_IMAGE_TAG
   extends: .build-docker-kaniko
   variables:
     DCR_IMAGE_TAG: $VERSION
