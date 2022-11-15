@@ -15,6 +15,10 @@ variables:
 
 build-docker:
   extends: .build-docker-kaniko
+  rules:
+    - if: ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH == "develop")
+      when: on_success
+    - when: never
   variables:
     DCR_IMAGE_TAG: $VERSION
     IMAGE_NAME: knowledge_app_telegram_search
@@ -23,11 +27,15 @@ build-docker:
 
 release-docker:
   extends: .upload-docker-latest
+  rules:
+    - if: ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH == "develop")
+      when: on_success
+    - when: never
   variables:
     DCR_IMAGE_TAG: $VERSION
     IMAGE_NAME: knowledge_app_telegram_search
 
-deploy-services:
+.deploy-services:
   stage: deploy
   trigger:
     project: rdv-company/knowledge-app/knowledge_app_infra
