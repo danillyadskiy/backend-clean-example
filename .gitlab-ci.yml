@@ -14,6 +14,8 @@ variables:
   SAST_EXCLUDED_ANALYZERS: "eslint"
 
 build-docker:
+  before_script:
+    - ls -al
   extends: .build-docker-kaniko
   variables:
     DCR_IMAGE_TAG: $VERSION
