@@ -18,7 +18,7 @@ build-docker:
   variables:
     DCR_IMAGE_TAG: $VERSION
     IMAGE_NAME: knowledge_app_telegram_search
-    DOCKERFILE_PATH: ${CI_PROJECT_DIR}/Dockerfile
+    DOCKERFILE_PATH: Dockerfile
     CONTEXT_PATH: ${CI_PROJECT_DIR}
 
 release-docker:
