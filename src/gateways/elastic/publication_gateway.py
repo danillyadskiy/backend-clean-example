@@ -13,8 +13,10 @@ class PublicationGateway(IPublicationGateway):
         self.__search = search
         self.__loader = SearchLoader(self.__search)
 
-    async def get(self, filters: PublicationFilters) -> list[Publication]:
-        edsl_query = EDSLGenerator.generate_publication_text_edsl(filters.text)
+    async def get(self, filters: PublicationFilters = None) -> list[Publication]:
+        edsl_filters = EDSLGenerator.generate_publication_filters_edsl(filters) if filters else []
+        edsl_query = EDSLGenerator.generate_publication_query_edsl(edsl_filters=edsl_filters)
+
         publication_schemes = EDSLParser.hits_to_model_list(
             list_model=list[PublicationSchema],
             es_docs=await self.__search.search(index=KNOWLEDGE_INDEX_NAME, body=edsl_query),

@@ -1,8 +1,6 @@
-from typing import Optional
-
 from http import HTTPStatus
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Body, Depends
 
 from api.v1.converters import PublicationConverter, PublicationCreationSummaryConverter
 from api.v1.dependencies import get_create_publication_use_case, get_search_publications_use_case
@@ -21,10 +19,9 @@ router = APIRouter()
     response_model=list[PublicationSchema],
 )
 async def search_publications(
-    publication_text: str,
+    filters: PublicationFilters = Body(default=None, embed=True),
     search_publications_use_case: SearchPublicationsUseCase = Depends(get_search_publications_use_case),
 ) -> list[PublicationSchema]:
-    filters = PublicationFilters(text=publication_text)
     publications = await search_publications_use_case.search_publications(filters=filters)
     return PublicationConverter.list_from_business(publications)
 
@@ -39,7 +36,7 @@ async def search_publications(
 async def post_publication(
     publication_to_post: PublicationCreationSummarySchema,
     create_publication_use_case: CreatePublicationUseCase = Depends(get_create_publication_use_case),
-) -> Optional[PublicationCreatedSchema]:
+) -> PublicationCreatedSchema:
     publication_creation_summary = PublicationCreationSummaryConverter.to_business(publication_to_post)
     publication = await create_publication_use_case.create_publication(publication_creation_summary)
     return PublicationCreatedSchema(id=publication.id, text=publication.text)

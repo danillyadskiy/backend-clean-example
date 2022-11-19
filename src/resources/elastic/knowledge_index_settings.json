@@ -40,7 +40,7 @@
             "published_channel_id": {"type": "long"},
             "published_message_id": {"type": "long"},
             "text": {"type": "text", "analyzer": "ru_en"},
-            "tags": {"type": "text", "analyzer": "ru_en"},
+            "tags": {"type": "keyword"},
             "timestamp": {"type": "date", "format": "date_optional_time||epoch_millis"}
         }
     }
