@@ -1,12 +1,5 @@
-# TODO: удалить src
-from elasticsearch import Elasticsearch
-
-from core.settings import Settings
-from services.loader.elastic import ElasticSearchLoader
-from storage.instances.elastic.settings import KNOWLEDGE_INDEX_NAME, KNOWLEDGE_INDEX_SETTINGS
+from core.elastic_config import KNOWLEDGE_INDEX_NAME, KNOWLEDGE_INDEX_SETTINGS, es_client
+from gateways.elastic.services import SearchLoader
 
 if __name__ == "__main__":
-    settings = Settings()
-    es = ElasticSearchLoader(Elasticsearch(hosts=[settings.elastic]))
-    es.create_mapping(index_name=KNOWLEDGE_INDEX_NAME, body=KNOWLEDGE_INDEX_SETTINGS)
-    # es.delete_index(index_name=KNOWLEDGE_INDEX_NAME)
+    SearchLoader(es_client).create_mapping(index_name=KNOWLEDGE_INDEX_NAME, body=KNOWLEDGE_INDEX_SETTINGS)

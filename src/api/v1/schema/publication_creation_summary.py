@@ -1,13 +1,9 @@
-from uuid import UUID
-
 from pydantic import BaseModel
 
 
-class PublicationSchema(BaseModel):
-    id: UUID
+class PublicationCreationSummarySchema(BaseModel):
     text: str
     tags: list[str]
-    timestamp: float
     author_id: int
     author_first_name: str
     author_last_name: str
