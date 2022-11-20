@@ -1,5 +1,7 @@
-from .publication_gateway import IPublicationGateway
+from .publication_saver import IPublicationSaver
+from .publications_getter import IPublicationsGetter
 
 __all__ = [
-    "IPublicationGateway",
+    "IPublicationSaver",
+    "IPublicationsGetter",
 ]

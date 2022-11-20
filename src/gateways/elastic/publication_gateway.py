@@ -1,14 +1,14 @@
 from elasticsearch import AsyncElasticsearch
 
 from business import Publication, PublicationFilters
-from business.interfaces import IPublicationGateway
+from business.interfaces import IPublicationSaver, IPublicationsGetter
 from core.elastic_config import KNOWLEDGE_INDEX_NAME
 from gateways.elastic.converters import PublicationConverter
 from gateways.elastic.schema import PublicationSchema
 from gateways.elastic.services import EDSLGenerator, EDSLParser, SearchLoader
 
 
-class PublicationGateway(IPublicationGateway):
+class PublicationGateway(IPublicationsGetter, IPublicationSaver):
     def __init__(self, search: AsyncElasticsearch):
         self.__search = search
         self.__loader = SearchLoader(self.__search)
