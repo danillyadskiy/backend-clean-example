@@ -17,16 +17,16 @@ app = FastAPI(
 app.include_router(publications.router, prefix="/api/v1", tags=["publications"])
 
 
+@app.on_event("startup")
+async def app_startup() -> None:
+    if not await es_client.indices.exists(KNOWLEDGE_INDEX_NAME):
+        await SearchLoader(es_client).create_mapping(index_name=KNOWLEDGE_INDEX_NAME, body=KNOWLEDGE_INDEX_SETTINGS)
+
+
 @app.on_event("shutdown")
 async def app_shutdown() -> None:
     await es_client.close()
 
 
-def create_index_if_not_exist() -> None:
-    if not es_client.indices.exists(KNOWLEDGE_INDEX_NAME):
-        SearchLoader(es_client).create_mapping(index_name=KNOWLEDGE_INDEX_NAME, body=KNOWLEDGE_INDEX_SETTINGS)
-
-
 if __name__ == "__main__":
-    create_index_if_not_exist()
     uvicorn.run("main:app", host=SETTINGS.hostname, port=SETTINGS.port)
