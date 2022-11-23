@@ -5,4 +5,4 @@ from pydantic import BaseModel
 
 class PublicationCreatedSchema(BaseModel):
     id: UUID
-    timestamp: str
+    timestamp: float
