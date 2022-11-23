@@ -39,4 +39,4 @@ async def post_publication(
 ) -> PublicationCreatedSchema:
     publication_creation_summary = PublicationCreationSummaryConverter.to_business(publication_to_post)
     publication = await create_publication_use_case.create_publication(publication_creation_summary)
-    return PublicationCreatedSchema(id=publication.id, text=publication.text)
+    return PublicationCreatedSchema(id=publication.id, timestamp=publication.timestamp)
