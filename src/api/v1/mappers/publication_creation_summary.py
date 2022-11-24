@@ -2,7 +2,7 @@ from api.v1.schema import PublicationCreationSummarySchema
 from business import Author, PublicationCreationSummary
 
 
-class PublicationCreationSummaryConverter:
+class PublicationCreationSummaryMapper:
     @staticmethod
     def from_business(publication_creation_summary: PublicationCreationSummary) -> PublicationCreationSummarySchema:
         return PublicationCreationSummarySchema(
@@ -38,7 +38,7 @@ class PublicationCreationSummaryConverter:
         publication_creation_summaries: list[PublicationCreationSummary],
     ) -> list[PublicationCreationSummarySchema]:
         return [
-            PublicationCreationSummaryConverter.from_business(publication_creation_summary)
+            PublicationCreationSummaryMapper.from_business(publication_creation_summary)
             for publication_creation_summary in publication_creation_summaries
         ]
 
@@ -47,6 +47,6 @@ class PublicationCreationSummaryConverter:
         publication_creation_summary_schemes: list[PublicationCreationSummarySchema],
     ) -> list[PublicationCreationSummary]:
         return [
-            PublicationCreationSummaryConverter.to_business(publication_creation_summary_schema)
+            PublicationCreationSummaryMapper.to_business(publication_creation_summary_schema)
             for publication_creation_summary_schema in publication_creation_summary_schemes
         ]

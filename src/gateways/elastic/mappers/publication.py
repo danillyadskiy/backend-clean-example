@@ -2,7 +2,7 @@ from business import Author, Publication
 from gateways.elastic.schema import PublicationSchema
 
 
-class PublicationConverter:
+class PublicationMapper:
     @staticmethod
     def from_business(publication: Publication) -> PublicationSchema:
         return PublicationSchema(
@@ -37,8 +37,8 @@ class PublicationConverter:
 
     @staticmethod
     def list_from_business(publications: list[Publication]) -> list[PublicationSchema]:
-        return [PublicationConverter.from_business(publication) for publication in publications]
+        return [PublicationMapper.from_business(publication) for publication in publications]
 
     @staticmethod
     def list_to_business(publication_schemes: list[PublicationSchema]) -> list[Publication]:
-        return [PublicationConverter.to_business(publication_schema) for publication_schema in publication_schemes]
+        return [PublicationMapper.to_business(publication_schema) for publication_schema in publication_schemes]
