@@ -1,11 +1,11 @@
-from typing import Any
+from typing import Any, Optional
 
 from business import PublicationFilters
 
 
 class EDSLGenerator:
     @staticmethod
-    def generate_publication_query_edsl(edsl_filters: list[dict[str, Any]] = []) -> dict[str, Any]:  # noqa: B006
+    def generate_publication_query_edsl(edsl_filters: Optional[list[dict[str, Any]]] = None) -> dict[str, Any]:
         return {"query": {"bool": {"must": edsl_filters}}} if edsl_filters else {}
 
     @staticmethod

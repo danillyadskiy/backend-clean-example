@@ -7,6 +7,8 @@ load_dotenv()
 
 
 class Settings(BaseSettings):
+    debug: bool
+    version: str
     hostname: str
     port: int
     elastic_host: str = Field(env="ELASTICSEARCH_HOST")

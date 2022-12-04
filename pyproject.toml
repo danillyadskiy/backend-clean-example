@@ -1,6 +1,7 @@
 [tool.mypy]
 python_version = 3.9
 pretty = true
+follow_imports = "skip"
 show_traceback = false
 color_output = true
 allow_redefinition = false
@@ -40,4 +41,4 @@ indent = 4
 color_output = true
 
 [tool.bandit]
-skips = "B311"
+exclude_dirs = ["tests"]

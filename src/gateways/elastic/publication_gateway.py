@@ -1,3 +1,5 @@
+from typing import Optional
+
 from elasticsearch import AsyncElasticsearch
 
 from business import Publication, PublicationFilters
@@ -13,7 +15,7 @@ class PublicationGateway(IPublicationsGetter, IPublicationSaver):
         self.__search = search
         self.__loader = SearchLoader(self.__search)
 
-    async def get(self, filters: PublicationFilters = None) -> list[Publication]:
+    async def get(self, filters: Optional[PublicationFilters] = None) -> list[Publication]:
         edsl_filters = EDSLGenerator.generate_publication_filters_edsl(filters) if filters else []
         edsl_query = EDSLGenerator.generate_publication_query_edsl(edsl_filters=edsl_filters)
 

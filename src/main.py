@@ -9,8 +9,9 @@ from gateways.elastic.services import SearchLoader
 
 app = FastAPI(
     title="search-api",
-    docs_url="/api/openapi",
-    openapi_url="/api/openapi.json",
+    version=SETTINGS.version,
+    docs_url="/api/openapi" if SETTINGS.debug else None,
+    openapi_url="/api/openapi.json" if SETTINGS.debug else None,
     default_response_class=ORJSONResponse,
 )
 

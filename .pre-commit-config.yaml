@@ -6,28 +6,29 @@ repos:
         stages: [ commit ]
         language: python
         types: [ python ]
-        entry: black
+        entry: venv/bin/black
       - id: isort
         name: isort
         stages: [ commit ]
         language: python
         types: [ python ]
-        entry: isort
+        entry: venv/bin/isort
       - id: flake8
         name: flake8
         stages: [ commit ]
         language: python
         types: [ python ]
-        entry: flake8
+        entry: venv/bin/flake8
       - id: mypy
         name: mypy
         stages: [ commit ]
         language: python
         types: [ python ]
-        entry: mypy
+        entry: venv/bin/mypy
       - id: bandit
         name: bandit
         stages: [ commit ]
         language: python
         types: [ python ]
-        entry: bandit
+        entry: venv/bin/bandit
+        args: [ "-c", "pyproject.toml" ]
