@@ -12,11 +12,13 @@ include:
 variables:
   VERSION: 1.0.${CI_PIPELINE_ID}
   SAST_EXCLUDED_ANALYZERS: "eslint"
+  REPO_HELM_URL: ${CI_API_V4_URL}/projects/${HELM_PROJECT_ID}/packages/helm/stable
+  CHART: telegram-knowledge-base
 
 build-docker:
   extends: .build-docker-kaniko
   rules:
-    - if: ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH == "develop")
+    - if: ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH == "develop" || $CI_COMMIT_BRANCH == "devops")
       when: on_success
     - when: never
   variables:
@@ -28,14 +30,44 @@ build-docker:
 release-docker:
   extends: .upload-docker-latest
   rules:
-    - if: ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH == "develop")
+    - if: ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH)
       when: on_success
     - when: never
   variables:
     DCR_IMAGE_TAG: $VERSION
     IMAGE_NAME: knowledge_app_telegram_search
 
-.deploy-services:
+.deploy-service:
   stage: deploy
-  trigger:
-    project: rdv-company/knowledge-app/knowledge_app_infra
+  extends: .deploy-helm-for-service
+  script:
+    - >
+      helm upgrade --install knowledge-app 
+      --set global.environment=$ENVIRONMENT_TYPE       
+      --set secrets.dockerConfigJson=${DOCKER_CONFIG_JSON} 
+      --set telegram-search.fqdn=${TELEGRAM_SEARCH_URL} 
+      --set telegram-search.image.tag=${VERSION} 
+      --set-string telegram-search.debugMode=${DEBUG_MODE} 
+      --atomic --timeout 15m --reuse-values --namespace knowledge-base-$ENVIRONMENT_TYPE --create-namespace knowledge_helm/${CHART}
+
+deploy-service-dev:
+  extends: .deploy-service
+  rules:
+    - if: ($CI_COMMIT_BRANCH == "devops" || $CI_COMMIT_BRANCH == "develop")
+      when: manual
+    - when: never
+  environment:
+    name: search-service-dev
+    url: http://${TELEGRAM_SEARCH_URL}/api/openapi
+
+deploy-service-prod:
+  extends: .deploy-service
+  rules:
+    - if: ($CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH)
+      when: manual
+    - when: never
+  variables:
+    VERSION: latest
+  environment:
+    name: search-service-prod
+    url: http://${TELEGRAM_SEARCH_URL}/api/openapi
