@@ -7,7 +7,7 @@ from business.author import Author
 
 
 class Publication(BaseModel):
-    id: UUID = Field(uuid4(), allow_mutation=False)
+    id: UUID = Field(default_factory=uuid4, allow_mutation=False)
     text: str
     tags: list[str]
     author: Author
