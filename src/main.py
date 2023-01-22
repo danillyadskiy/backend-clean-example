@@ -5,6 +5,7 @@ from fastapi.responses import ORJSONResponse
 from api.v1 import publications
 from core.config import SETTINGS
 from core.elastic_config import KNOWLEDGE_INDEX_NAME, KNOWLEDGE_INDEX_SETTINGS, es_client
+from core.log_config import LOG_CONFIG
 from gateways.elastic.services import SearchLoader
 
 app = FastAPI(
@@ -30,4 +31,4 @@ async def app_shutdown() -> None:
 
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host=SETTINGS.hostname, port=SETTINGS.port)
+    uvicorn.run("main:app", log_config=LOG_CONFIG, host=SETTINGS.hostname, port=SETTINGS.port)
