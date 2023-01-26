@@ -1,4 +1,4 @@
-# Сервис поиска
+# Backend Clean Example
 
 ## Описание
 
